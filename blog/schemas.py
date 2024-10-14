@@ -1,4 +1,4 @@
-from typing import Union
+from typing import Union, List
 from pydantic import BaseModel
 
 class BlogBase(BaseModel):
@@ -7,7 +7,7 @@ class BlogBase(BaseModel):
 
 class Blog(BlogBase):
     class Config():
-        orm_mode = True
+        from_attributes = True
 
 class Users(BaseModel):
     name: str
@@ -18,9 +18,9 @@ class ShowUser(BaseModel):
     name: str
     email: str
 
-    blogs: list[Blog]
+    blogs: List[Blog] = []
     class Config():
-        orm_mode = True
+        from_attributes = True
 
 class ShowBlog(BaseModel):
     
@@ -29,25 +29,25 @@ class ShowBlog(BaseModel):
 
     creator: ShowUser
     class Config():
-        orm_mode = True
+        from_attributes = True
 
 class Login(BaseModel):
     username: str
     password: str
 
     class Config():
-        orm_mode = True
+        from_attributes = True
 
 class Token(BaseModel):
     access_token: str
     token_type: str
 
     class Config():
-        orm_mode = True
+        from_attributes = True
 
 
 class TokenData(BaseModel):
     username: Union[str, None] = None
 
     class Config():
-        orm_mode = True
+        from_attributes = True
