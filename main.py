@@ -1,6 +1,8 @@
 from typing import Optional
 from fastapi import FastAPI
 
+from pydantic import BaseModel
+
 app = FastAPI()
 
 # ('/') In fastapi, we call this path "/"
@@ -13,11 +15,21 @@ async def index():
 
 @app.get("/blog")
 def index(limit = 10, published: bool = True, sort: Optional[str] = None):
-    return published
     if published:
         return {"data": f"{limit} published blogs"}
     else:
         return {"data": f"{limit} blogs"}
+
+
+class Blog(BaseModel):
+    title: str
+    body: str
+    published: Optional[bool]
+
+@app.post("/blog")
+def create_blog(req: Blog):
+    return {'data': f'Blog is Created as {req.title}'}
+
 
 @app.get("/blog/unpublished")
 def about():
